@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello VehicleController!{% endblock %}
+
+{% block body %}
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            background-color: #f7f8fc;
+            font-family: "Roboto", sans-serif;
+            color: #10182f;
+        }
+
+        .container {
+            display: flex;
+            width: 1040px;
+            justify-content: left;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            margin: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 300px;
+        }
+
+        .card-header img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            min-height: 200px;
+        }
+
+        .tag {
+            background: #cccccc;
+            border-radius: 50px;
+            font-size: 12px;
+            margin: 0;
+            color: #fff;
+            padding: 2px 10px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .tag-teal {
+            background-color: #cd5b9f;
+        }
+
+        .card-body p {
+            font-size: 13px;
+            display: inline-block;
+        }
+
+        .card-body span {
+            font-size: 13px;
+            display: inline-block;
+        }
+
+        .user {
+            display: flex;
+            margin-top: auto;
+        }
+
+        .user img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .user-info h5 {
+            margin: 0;
+        }
+
+        .user-info small {
+            color: #545d7a;
+        }
+
+        .card-infomation {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .infomation-left {
+            width: 50%;
+            display: inline-block;
+        }
+
+        .infomation-right {
+            width: 50%;
+            display: inline-block;
+        }
+
+        .card-price {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+        }
+    </style>
+
+    <div class="container">
+    {% for vehicle in vehicles %}
+        <div class="card">
+            <div class="card-header">
+                <img src="{{ vehicle.img }}" alt="rover"/>
+            </div>
+            <div class="card-body">
+                <span class="tag tag-teal">{{ vehicle.brand }}</span>
+                <h4>
+                    {{ vehicle.name }}
+                </h4>
+                <div class="card-infomation">
+                    <div class="infomation-left">
+                        <p><b>Color: </b></p>
+                        <span> {{ vehicle.color }}</span>
+                    </div>
+                    <div class="infomation-right">
+                        <p><b>Luggage: </b></p>
+                        <span> {{ vehicle.luggage }}</span>
+                    </div>
+                </div>
+                <div class="card-infomation">
+                    <div class="infomation-left">
+                        <p><b>Doors: </b></p>
+                        <span> {{ vehicle.doors }}</span>
+                    </div>
+                    <div class="infomation-right">
+                        <p><b>Passenger: </b></p>
+                        <span> {{ vehicle.passenger }}</span>
+                    </div>
+                </div>
+                <div class="card-price">
+                    <div>
+                        <p><b>Price: </b></p>
+                        <span>{{ vehicle.formatPrice }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+
+
+{% endblock %}
