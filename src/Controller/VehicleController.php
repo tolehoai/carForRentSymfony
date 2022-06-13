@@ -2,18 +2,21 @@
 
 namespace App\Controller;
 
+use App\Repository\VehicleRepository;
+use App\Transformer\VehicleTransformer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class VehicleController extends AbstractController
 {
     #[Route('/vehicle', name: 'app_vehicle')]
-    public function index(): JsonResponse
+    public function index(VehicleRepository $vehicleRepository, VehicleTransformer $vehicleTransformer): Response
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/VehicleController.php',
+        $vehicle = $vehicleRepository->findAll();
+        return $this->render('vehicles/index.html.twig',[
+            'vehicles' => $vehicleTransformer->transform($vehicle),
         ]);
     }
 }

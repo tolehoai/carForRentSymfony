@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Form\VehicleTransformer;
+use App\Transformer\VehicleTransformer;
 use App\Repository\VehicleRepository;
 
 class VehicleService
