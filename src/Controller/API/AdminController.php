@@ -4,7 +4,6 @@ namespace App\Controller\API;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
@@ -13,7 +12,7 @@ class AdminController extends AbstractController
     public function index(): JsonResponse
     {
         return $this->json([
-            'message'=>'Admin homepage'
-        ]);
+            'message' => 'Admin homepage'
+        ], 200);
     }
 }
