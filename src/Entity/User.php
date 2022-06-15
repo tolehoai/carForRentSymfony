@@ -48,7 +48,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -94,3 +94,4 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         // $this->plainPassword = null;
     }
 }
+

@@ -78,3 +78,4 @@ class Vehicle
         return $this;
     }
 }
+

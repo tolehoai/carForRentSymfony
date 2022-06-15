@@ -13,7 +13,10 @@ class AuthenticationFailureListener
      */
     public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event): void
     {
-        $response = new JWTAuthenticationFailureResponse('Bad credentials, please verify that your username/password are correctly set', JsonResponse::HTTP_UNAUTHORIZED);
+        $response = new JWTAuthenticationFailureResponse(
+            'Bad credentials, please verify that your username/password are correctly set',
+            JsonResponse::HTTP_UNAUTHORIZED
+        );
         $event->setResponse($response);
     }
 }

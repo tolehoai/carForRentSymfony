@@ -8,7 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class BaseRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry, string $entityClass='')
+    public function __construct(ManagerRegistry $registry, string $entityClass = '')
     {
         parent::__construct($registry, $entityClass);
     }
@@ -31,3 +31,4 @@ class BaseRepository extends ServiceEntityRepository
         }
     }
 }
+

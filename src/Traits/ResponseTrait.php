@@ -17,7 +17,7 @@ trait ResponseTrait
         ]);
     }
 
-    public function error() :JsonResponse
+    public function error(): JsonResponse
     {
         $jsonResponse = new JsonResponse();
         return $jsonResponse->setData([
@@ -25,5 +25,4 @@ trait ResponseTrait
             'message' => 'Credentials invalid'
         ]);
     }
-
 }
