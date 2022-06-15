@@ -14,13 +14,4 @@ trait ResponseTrait
             'data' => $data
         ]);
     }
-
-    public function error(): JsonResponse
-    {
-        $jsonResponse = new JsonResponse();
-        return $jsonResponse->setData([
-            'status' => 'error',
-            'message' => 'Credentials invalid'
-        ]);
-    }
 }
