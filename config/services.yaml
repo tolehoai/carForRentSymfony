@@ -20,9 +20,9 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Subscriber\StoreSubscriber:
+    acme_api.event.authentication_failure_listener:
+        class: App\EventListener\AuthenticationFailureListener
         tags:
-            - { name: kernel.event_listener, event: kernel.exception, priority: 1000 }
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureResponse }
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+
