@@ -18,6 +18,7 @@ class AuthController extends AbstractController
         $user = $this->getUser();
 
         $token = $JWTTokenManager->create($user);
-        return $this->success($token);
+        $data = ['token'=>$token];
+        return $this->success($data);
     }
 }
