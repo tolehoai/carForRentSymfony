@@ -27,7 +27,7 @@ class Car
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $brand;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'float')]
     private $price;
 
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -36,16 +36,16 @@ class Car
     #[ORM\Column(type: 'integer', nullable: true)]
     private $year;
 
-    #[ORM\Column(type: 'date_immutable')]
+    #[ORM\Column(type: 'date_immutable',nullable: true)]
     private $created_at;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $created_user_id;
+    #[ORM\JoinColumn(nullable: true)]
+    private $created_user;
 
     #[ORM\OneToOne(inversedBy: 'car', targetEntity: Image::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $thumbnail_id;
+    #[ORM\JoinColumn(nullable: true)]
+    private $thumbnail;
 
     #[ORM\OneToMany(mappedBy: 'car_id', targetEntity: Rent::class)]
     private $rents;
@@ -113,7 +113,7 @@ class Car
         return $this->price;
     }
 
-    public function setPrice(string $price): self
+    public function setPrice(float $price): self
     {
         $this->price = $price;
 
@@ -156,26 +156,26 @@ class Car
         return $this;
     }
 
-    public function getCreatedUserId(): ?User
+    public function getCreatedUser(): ?User
     {
-        return $this->created_user_id;
+        return $this->created_user;
     }
 
-    public function setCreatedUserId(?User $created_user_id): self
+    public function setCreatedUser(?User $created_user): self
     {
-        $this->created_user_id = $created_user_id;
+        $this->created_user = $created_user;
 
         return $this;
     }
 
-    public function getThumbnailId(): ?Image
+    public function getThumbnail(): ?Image
     {
-        return $this->thumbnail_id;
+        return $this->thumbnail;
     }
 
-    public function setThumbnailId(Image $thumbnail_id): self
+    public function setThumbnail(Image $thumbnail): self
     {
-        $this->thumbnail_id = $thumbnail_id;
+        $this->thumbnail = $thumbnail;
 
         return $this;
     }
@@ -192,7 +192,7 @@ class Car
     {
         if (!$this->rents->contains($rent)) {
             $this->rents[] = $rent;
-            $rent->setCarId($this);
+            $rent->setCar($this);
         }
 
         return $this;
@@ -202,8 +202,8 @@ class Car
     {
         if ($this->rents->removeElement($rent)) {
             // set the owning side to null (unless already changed)
-            if ($rent->getCarId() === $this) {
-                $rent->setCarId(null);
+            if ($rent->getCar() === $this) {
+                $rent->setCar(null);
             }
         }
 

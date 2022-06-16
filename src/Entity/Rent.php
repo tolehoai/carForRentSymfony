@@ -30,11 +30,11 @@ class Rent
 
     #[ORM\ManyToOne(targetEntity: Car::class, inversedBy: 'rents')]
     #[ORM\JoinColumn(nullable: false)]
-    private $car_id;
+    private $car;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'rents')]
     #[ORM\JoinColumn(nullable: false)]
-    private $user_id;
+    private $user;
 
     public function getId(): ?int
     {
@@ -101,26 +101,26 @@ class Rent
         return $this;
     }
 
-    public function getCarId(): ?Car
+    public function getCar(): ?Car
     {
-        return $this->car_id;
+        return $this->car;
     }
 
-    public function setCarId(?Car $car_id): self
+    public function setCar(?Car $car): self
     {
-        $this->car_id = $car_id;
+        $this->car = $car;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }

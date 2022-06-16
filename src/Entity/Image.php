@@ -59,8 +59,8 @@ class Image
     public function setCar(Car $car): self
     {
         // set the owning side of the relation if necessary
-        if ($car->getThumbnailId() !== $this) {
-            $car->setThumbnailId($this);
+        if ($car->getThumbnail() !== $this) {
+            $car->setThumbnail($this);
         }
 
         $this->car = $car;

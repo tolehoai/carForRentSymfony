@@ -26,7 +26,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     #[ORM\Column(type: 'string')]
     private $password;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $name;
 
     #[ORM\OneToMany(mappedBy: 'created_user_id', targetEntity: Car::class)]
@@ -34,6 +34,9 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Rent::class)]
     private $rents;
+
+    #[ORM\Column(type: 'date_immutable', nullable: true)]
+    private $created_at;
 
     public function __construct()
     {
@@ -135,7 +138,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     {
         if (!$this->cars->contains($car)) {
             $this->cars[] = $car;
-            $car->setCreatedUserId($this);
+            $car->setCreatedUser($this);
         }
 
         return $this;
@@ -145,8 +148,8 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     {
         if ($this->cars->removeElement($car)) {
             // set the owning side to null (unless already changed)
-            if ($car->getCreatedUserId() === $this) {
-                $car->setCreatedUserId(null);
+            if ($car->getCreatedUser() === $this) {
+                $car->setCreatedUser(null);
             }
         }
 
@@ -165,7 +168,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     {
         if (!$this->rents->contains($rent)) {
             $this->rents[] = $rent;
-            $rent->setUserId($this);
+            $rent->setUser($this);
         }
 
         return $this;
@@ -175,10 +178,22 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     {
         if ($this->rents->removeElement($rent)) {
             // set the owning side to null (unless already changed)
-            if ($rent->getUserId() === $this) {
-                $rent->setUserId(null);
+            if ($rent->getUser() === $this) {
+                $rent->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $created_at): self
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }
