@@ -37,11 +37,11 @@ class Car
     private $year;
 
     #[ORM\Column(type: 'date_immutable',nullable: true)]
-    private $created_at;
+    private $createdAt;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
     #[ORM\JoinColumn(nullable: true)]
-    private $created_user;
+    private $createdUser;
 
     #[ORM\OneToOne(inversedBy: 'car', targetEntity: Image::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
@@ -146,24 +146,24 @@ class Car
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getCreatedUser(): ?User
     {
-        return $this->created_user;
+        return $this->createdUser;
     }
 
-    public function setCreatedUser(?User $created_user): self
+    public function setCreatedUser(?User $createdUser): self
     {
-        $this->created_user = $created_user;
+        $this->createdUser = $createdUser;
 
         return $this;
     }

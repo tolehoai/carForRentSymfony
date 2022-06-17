@@ -17,7 +17,6 @@ class AuthController extends AbstractController
     #[Route('/api/login', name: 'app_api_login', methods: 'POST')]
     public function login(JWTTokenManagerInterface $JWTTokenManager): JsonResponse
     {
-
         $user = $this->getUser();
         $token = $JWTTokenManager->create($user);
         $data = ['token'=>$token];

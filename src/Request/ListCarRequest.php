@@ -2,22 +2,17 @@
 
 namespace App\Request;
 
-class ListCarRequest extends AbstractRequest
+use Symfony\Component\Validator\Constraints as Assert;
+
+class ListCarRequest extends BaseRequest
 {
     private string $order;
     private string $color;
     private string $brand;
-    private string $seat;
-    public function fromArray(array $query)
-    {
-        foreach ($query as $key => $value) {
-            $setter = 'set'.ucfirst($key);
-            if(!method_exists($this,$setter)){
-                return;
-            }
-            $this->{$setter}($value);
-        }
-    }
+    #[Assert\NotBlank(
+        allowNull: true
+    )]
+    private mixed $seats = null;
 
     /**
      * @return string
@@ -68,19 +63,19 @@ class ListCarRequest extends AbstractRequest
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getSeat(): string
+    public function getSeats(): int
     {
-        return $this->seat;
+        return $this->seats;
     }
 
     /**
-     * @param string $seat
+     * @param mixed $seats
      */
-    public function setSeat(string $seat): void
+    public function setSeats(mixed $seats): void
     {
-        $this->seat = $seat;
+        $this->seats = is_numeric($seats) ? (int)$seats : null;
     }
 
 

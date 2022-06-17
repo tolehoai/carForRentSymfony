@@ -29,14 +29,14 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $name;
 
-    #[ORM\OneToMany(mappedBy: 'created_user_id', targetEntity: Car::class)]
+    #[ORM\OneToMany(mappedBy: 'createdUser_id', targetEntity: Car::class)]
     private $cars;
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Rent::class)]
     private $rents;
 
     #[ORM\Column(type: 'date_immutable', nullable: true)]
-    private $created_at;
+    private $createdAt;
 
     public function __construct()
     {
@@ -188,12 +188,12 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTimeImmutable $created_at): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
