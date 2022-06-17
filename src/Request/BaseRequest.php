@@ -17,5 +17,14 @@ class BaseRequest
         return $this;
     }
 
+    public function transfer(array $params, mixed $instanceOfRequest): array
+    {
+        $arr = [];
+        foreach ($params as $key => $value) {
+            $getter = 'get' . ucfirst($value);
+            $arr[$value] = $instanceOfRequest->{$getter}();
+        }
+        return $arr;
+    }
 
 }

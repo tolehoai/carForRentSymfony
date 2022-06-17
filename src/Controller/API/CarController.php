@@ -20,22 +20,18 @@ class CarController extends AbstractController
 
     #[Route('/api/car', name: 'app_api_car')]
     public function list(
-        Request $request,
-        ListCarRequest $listCarRequest,
+        Request            $request,
+        ListCarRequest     $listCarRequest,
         ValidatorInterface $validator,
-        CarRepository $carRepository,
-    ): Response {
+        CarRepository      $carRepository,
+    ): Response
+    {
         $query = $request->query->all();
-        $listCarParams = $listCarRequest->fromArray($query);
+        $params = ['order', 'color', 'brand', 'seats'];
+        $listCarParams = $listCarRequest->fromArray($query)->transfer($params, $listCarRequest);
+        dd($listCarParams);
         $errors = $validator->validate($listCarParams);
-        $serializer = new Serializer(
-            [new GetSetMethodNormalizer(), new ArrayDenormalizer()],
-            [new JsonEncoder()]
-        );
-        $collection = new ArrayCollection([$listCarParams]);
-        dd($collection);
-        $arr = $serializer->deserialize($collection, 'Request\ListCarRequest[]', 'json');
-        dd($arr);
+
         return $this->json([]);
     }
 

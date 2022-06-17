@@ -6,18 +6,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ListCarRequest extends BaseRequest
 {
-    private string $order;
-    private string $color;
-    private string $brand;
+    private string|null $order = null;
+    private string|null $color = null;
+    private string|null $brand = null;
     #[Assert\NotBlank(
         allowNull: true
     )]
-    private mixed $seats = null;
+    private int|null $seats = null;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getOrder(): string
+    public function getOrder(): string|null
     {
         return $this->order;
     }
@@ -31,9 +31,9 @@ class ListCarRequest extends BaseRequest
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getColor(): string
+    public function getColor(): string|null
     {
         return $this->color;
     }
@@ -47,9 +47,9 @@ class ListCarRequest extends BaseRequest
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getBrand(): string
+    public function getBrand(): string|null
     {
         return $this->brand;
     }
@@ -63,9 +63,9 @@ class ListCarRequest extends BaseRequest
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getSeats(): int
+    public function getSeats(): int|null
     {
         return $this->seats;
     }
