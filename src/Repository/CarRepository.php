@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Car;
+use App\Request\ListCarRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,4 +22,8 @@ class CarRepository extends BaseRepository
         parent::__construct($registry, Car::class);
     }
 
+    public function filter(ListCarRequest $listCarRequest): array
+    {
+
+    }
 }
