@@ -13,6 +13,7 @@ use App\Traits\TransferTrait;
 class CarController extends AbstractController
 {
     use TransferTrait;
+
     #[Route('/api/car', name: 'app_api_car')]
     public function list(
         Request        $request,
@@ -23,9 +24,9 @@ class CarController extends AbstractController
         $query = $request->query->all();
         $listCarParams = $listCarRequest->fromArray($query);
         $carValidator->validatorGetCarRequest($listCarParams);
-        $params = ['order', 'color', 'brand', 'seats'];
-        dump($listCarParams);
-        dump($this->objectToArray($listCarParams));
+        $params = $this->objectToArray($listCarParams);
+        $listCarParamsArray = $listCarRequest->transfer($params);
+        dd($listCarParamsArray);
 
         return $this->json([]);
     }

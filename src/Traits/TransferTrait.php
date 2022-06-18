@@ -9,8 +9,9 @@ trait TransferTrait
     function objectToArray($object): array
     {
         $reflectionClass = new ReflectionClass(get_class($object));
-        $array = array();
-        foreach ($reflectionClass->getProperties() as $property) {
+        $array = [];
+        $properties = $reflectionClass->getProperties();
+        foreach ($properties as $property) {
             $property->setAccessible(true);
             $array[$property->getName()] = $property->getValue($object);
             $property->setAccessible(false);
