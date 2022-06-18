@@ -21,8 +21,9 @@ class BaseRequest
     {
         $arr = [];
         foreach ($params as $key => $value) {
-            $getter = 'get' . ucfirst($value);
-            $arr[$value] = $instanceOfRequest->{$getter}();
+            $getter = 'get' . ucfirst($key);
+
+            $arr[$key] = $instanceOfRequest->{$getter}($value);
         }
         return $arr;
     }

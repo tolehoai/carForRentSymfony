@@ -25,7 +25,7 @@ class CarController extends AbstractController
         $listCarParams = $listCarRequest->fromArray($query);
         $carValidator->validatorGetCarRequest($listCarParams);
         $params = $this->objectToArray($listCarParams);
-        $listCarParamsArray = $listCarRequest->transfer($params);
+        $listCarParamsArray = $listCarRequest->transfer($params, $listCarRequest);
         dd($listCarParamsArray);
 
         return $this->json([]);
