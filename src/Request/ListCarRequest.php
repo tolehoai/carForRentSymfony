@@ -9,10 +9,12 @@ class ListCarRequest extends BaseRequest
     private string|null $order = null;
     private string|null $color = null;
     private string|null $brand = null;
-    #[Assert\NotBlank(
-        allowNull: true
+
+    #[Assert\Type(
+        type: 'integer',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
-    private int|null $seats = null;
+    private mixed $seats = null;
 
     /**
      * @return string|null
@@ -75,7 +77,7 @@ class ListCarRequest extends BaseRequest
      */
     public function setSeats(mixed $seats): void
     {
-        $this->seats = is_numeric($seats) ? (int)$seats : null;
+        $this->seats = is_numeric($seats) ? (int)$seats : $seats;
     }
 
 

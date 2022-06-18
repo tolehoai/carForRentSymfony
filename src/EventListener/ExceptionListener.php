@@ -12,7 +12,7 @@ class ExceptionListener
     public function onKernelException(ExceptionEvent $event)
     {
         $exception = $event->getThrowable();
-
+        dd($exception);
         $jsonResponse = new JsonResponse();
         if ($exception instanceof AccessDeniedHttpException) {
             $jsonResponse->setData(['message' => $exception->getPrevious()->getMessage()]);
