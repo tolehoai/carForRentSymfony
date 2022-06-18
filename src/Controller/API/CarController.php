@@ -2,6 +2,7 @@
 
 namespace App\Controller\API;
 
+use App\Repository\CarRepository;
 use App\Request\ListCarRequest;
 use App\Validator\CarValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +20,7 @@ class CarController extends AbstractController
         Request        $request,
         ListCarRequest $listCarRequest,
         CarValidator   $carValidator,
+        CarRepository  $carRepository
     ): Response
     {
         $query = $request->query->all();
@@ -26,8 +28,8 @@ class CarController extends AbstractController
         $carValidator->validatorGetCarRequest($listCarParams);
         $params = $this->objectToArray($listCarParams);
         $listCarParamsArray = $listCarRequest->transfer($params, $listCarRequest);
-        dd($listCarParamsArray);
-
+        $filterCar = $carRepository->filter($listCarParamsArray);
+        dd($filterCar);
         return $this->json([]);
     }
 

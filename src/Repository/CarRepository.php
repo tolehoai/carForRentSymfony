@@ -22,8 +22,18 @@ class CarRepository extends BaseRepository
         parent::__construct($registry, Car::class);
     }
 
-    public function filter(ListCarRequest $listCarRequest): array
+    public function filter(array $listCarRequest): array
     {
+        dump($listCarRequest);
 
+        $qb = $this->createQueryBuilder('p');
+        foreach ($listCarRequest as $key => $value) {
+            if ($value != null) {
+                $qb->andWhere('p.' . $key . ' = ' . '\''.$value.'\'');
+            }
+        }
+
+        $query = $qb->getQuery();
+        return $query->execute();
     }
 }
