@@ -12,7 +12,7 @@ class Car extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -27,7 +27,7 @@ class Car extends AbstractEntity
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $brand;
 
-    #[ORM\Column(type: 'float')]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $price;
 
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -36,7 +36,7 @@ class Car extends AbstractEntity
     #[ORM\Column(type: 'integer', nullable: true)]
     private $year;
 
-    #[ORM\Column(type: 'date_immutable',nullable: true)]
+    #[ORM\Column(type: 'date_immutable')]
     private $createdAt;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]

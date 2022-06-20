@@ -2,7 +2,7 @@
 
 namespace App\Controller\API;
 
-use App\Repository\CarRepository;
+use App\Request\AddCarRequest;
 use App\Request\ListCarRequest;
 use App\Service\CarService;
 use App\Traits\ResponseTrait;
@@ -17,29 +17,27 @@ class CarController extends AbstractController
 {
     use TransferTrait;
     use ResponseTrait;
+
     #[Route('/api/car', name: 'app_api_car', methods: 'GET')]
     public function list(
         CarService $carService,
         Request $request,
         ListCarRequest $listCarRequest,
         CarValidator $carValidator,
-        CarRepository $carRepository,
     ): Response {
-
         $query = $request->query->all();
         $listCarParams = $listCarRequest->fromArray($query, $listCarRequest);
-        $carValidator->validatorGetCarRequest($listCarParams);
-
-        $carList = $carService->find($listCarParams, $carRepository);
+        $carValidator->validatorCarRequest($listCarParams);
+        $carList = $carService->find($listCarParams);
 
         return $this->success($carList);
     }
 
     #[Route('/api/car', name: 'app_api_add_car', methods: 'POST')]
-    public function addCar(): Response
+    public function addCar(Request $request, AddCarRequest $addCarRequest, CarService $carService): Response
     {
-
-
+        $body = $addCarRequest->fromArray(json_decode($request->getContent(), true), $addCarRequest);
+        $carService->addCar($body);
         return $this->json([]);
     }
 

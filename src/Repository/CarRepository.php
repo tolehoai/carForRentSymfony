@@ -23,7 +23,6 @@ class CarRepository extends BaseRepository
 
     public function filter(array $listCarRequest): array
     {
-
         $qb = $this->createQueryBuilder('p');
         foreach ($listCarRequest['criteria'] as $key => $value) {
             if ($value != null) {
@@ -41,4 +40,9 @@ class CarRepository extends BaseRepository
         $query = $qb->getQuery();
         return $query->getResult();
     }
+
+    public function addCar(){
+
+    }
+
 }

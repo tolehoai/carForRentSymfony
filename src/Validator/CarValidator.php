@@ -16,7 +16,7 @@ class CarValidator
         $this->validator =$validator;
     }
 
-    public function validatorGetCarRequest(ListCarRequest $param): void
+    public function validatorCarRequest(mixed $param): void
     {
         $errors = $this->validator->validate($param);
         if(count($errors)>=1){
