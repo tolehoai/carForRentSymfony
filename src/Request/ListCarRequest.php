@@ -6,18 +6,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ListCarRequest extends BaseRequest
 {
-    private string $order;
-    private string $color;
-    private string $brand;
-    #[Assert\NotBlank(
-        allowNull: true
+    private string|null $order = null;
+    private string|null $color = null;
+    private string|null $brand = null;
+    private string|null $price = null;
+    #[Assert\Type(
+        type: 'integer',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
     private mixed $seats = null;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getOrder(): string
+    public function getOrder(): string|null
     {
         return $this->order;
     }
@@ -31,9 +33,9 @@ class ListCarRequest extends BaseRequest
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getColor(): string
+    public function getColor(): string|null
     {
         return $this->color;
     }
@@ -47,9 +49,9 @@ class ListCarRequest extends BaseRequest
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getBrand(): string
+    public function getBrand(): string|null
     {
         return $this->brand;
     }
@@ -63,9 +65,9 @@ class ListCarRequest extends BaseRequest
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getSeats(): int
+    public function getSeats(): int|null
     {
         return $this->seats;
     }
@@ -75,8 +77,25 @@ class ListCarRequest extends BaseRequest
      */
     public function setSeats(mixed $seats): void
     {
-        $this->seats = is_numeric($seats) ? (int)$seats : null;
+        $this->seats = is_numeric($seats) ? (int)$seats : $seats;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param string|null $price
+     */
+    public function setPrice(?string $price): void
+    {
+        $this->price = $price;
+    }
+
 
 
 }

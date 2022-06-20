@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Car;
-use App\Request\ListCarRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -27,10 +26,13 @@ class CarRepository extends BaseRepository
         dump($listCarRequest);
 
         $qb = $this->createQueryBuilder('p');
-        foreach ($listCarRequest as $key => $value) {
+        foreach ($listCarRequest['criteria'] as $key => $value) {
             if ($value != null) {
-                $qb->andWhere('p.' . $key . ' = ' . '\''.$value.'\'');
+                $qb->andWhere('p.' . $key . ' = ' . '\'' . $value . '\'');
             }
+        }
+        foreach ($listCarRequest['filterBy'] as $key => $value) {
+            $qb->addOrderBy('p.' . $key, $value);
         }
 
         $query = $qb->getQuery();

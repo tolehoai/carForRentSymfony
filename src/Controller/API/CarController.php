@@ -4,12 +4,13 @@ namespace App\Controller\API;
 
 use App\Repository\CarRepository;
 use App\Request\ListCarRequest;
+use App\Service\CarService;
+use App\Traits\TransferTrait;
 use App\Validator\CarValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Traits\TransferTrait;
 
 class CarController extends AbstractController
 {
@@ -17,19 +18,17 @@ class CarController extends AbstractController
 
     #[Route('/api/car', name: 'app_api_car')]
     public function list(
-        Request        $request,
+        CarService $carService,
+        Request $request,
         ListCarRequest $listCarRequest,
-        CarValidator   $carValidator,
-        CarRepository  $carRepository
-    ): Response
-    {
+        CarValidator $carValidator,
+        CarRepository $carRepository,
+    ): Response {
         $query = $request->query->all();
-        $listCarParams = $listCarRequest->fromArray($query);
+        $listCarParams = $listCarRequest->fromArray($query, $listCarRequest);
         $carValidator->validatorGetCarRequest($listCarParams);
-        $params = $this->objectToArray($listCarParams);
-        $listCarParamsArray = $listCarRequest->transfer($params, $listCarRequest);
-        $filterCar = $carRepository->filter($listCarParamsArray);
-        dd($filterCar);
+        $carService->find($listCarParams, $carRepository);
+
         return $this->json([]);
     }
 
