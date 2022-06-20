@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\Request\AddCarRequest;
 use App\Request\ListCarRequest;
+use App\Request\UpdateCarRequest;
 use App\Service\CarService;
 use App\Traits\ResponseTrait;
 use App\Traits\TransferTrait;
@@ -45,9 +46,25 @@ class CarController extends AbstractController
     public function addCar(Request $request, AddCarRequest $addCarRequest, CarService $carService): Response
     {
         $body = $addCarRequest->fromArray(json_decode($request->getContent(), true), $addCarRequest);
-        
+
         return $carService->addCar($body);
     }
+
+    #[Route('/api/car/{id}', name: 'app_api_update_car', methods: 'PUT')]
+    public function updateCar($id, Request $request, UpdateCarRequest $updateCarRequest, CarService $carService): Response
+    {
+        $body = $updateCarRequest->fromArray(json_decode($request->getContent(), true), $updateCarRequest);
+
+        return $carService->updateCar($id ,$body);
+    }
+
+    #[Route('/api/car/{id}', name: 'app_api_update_car_patch', methods: 'PATCH')]
+    public function updateCarPatch($id, Request $request, UpdateCarRequest $updateCarRequest, CarService $carService): Response
+    {
+        $body = $updateCarRequest->fromArray(json_decode($request->getContent(), true), $updateCarRequest);
+        return $carService->updateCarPatch($id ,$body);
+    }
+
 
 
 }
