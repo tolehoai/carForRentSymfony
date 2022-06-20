@@ -33,12 +33,20 @@ class CarController extends AbstractController
         return $this->success($carList);
     }
 
+    #[Route('/api/car', name: 'app_api_delete_car', methods: 'DELETE')]
+    public function deleteCar(Request $request, AddCarRequest $addCarRequest, CarService $carService): Response
+    {
+        $id = json_decode($request->getContent(), true)['id'];
+
+        return $carService->deleteCar($id);
+    }
+
     #[Route('/api/car', name: 'app_api_add_car', methods: 'POST')]
     public function addCar(Request $request, AddCarRequest $addCarRequest, CarService $carService): Response
     {
         $body = $addCarRequest->fromArray(json_decode($request->getContent(), true), $addCarRequest);
-        $carService->addCar($body);
-        return $this->json([]);
+        
+        return $carService->addCar($body);
     }
 
 

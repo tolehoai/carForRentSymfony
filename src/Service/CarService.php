@@ -7,12 +7,14 @@ use App\Maping\AddCarRequestToCar;
 use App\Repository\CarRepository;
 use App\Request\AddCarRequest;
 use App\Request\ListCarRequest;
+use App\Traits\ResponseTrait;
 use App\Traits\TransferTrait;
 use App\Transformer\CarTransformer;
 
 class CarService
 {
     use TransferTrait;
+    use ResponseTrait;
 
     private CarTransformer $carTransformer;
     private CarRepository $carRepository;
@@ -28,6 +30,22 @@ class CarService
         $this->addCarRequestToCar = $addCarRequestToCar;
     }
 
+    public function addCar(
+        AddCarRequest $addCarRequest,
+    ) {
+        $car = $this->addCarRequestToCar->mapping($addCarRequest);
+        $this->carRepository->add($car, true);
+        return $this->success(['message'=>'Add car success']);
+    }
+
+    public function deleteCar(
+        string $id
+    ) {
+        $car = $this->carRepository->find($id);
+        $this->carRepository->remove($car, true);
+        return $this->success(['message'=>'Delete car success']);
+    }
+
     public function find(
         ListCarRequest $listCarRequest,
     ) {
@@ -38,13 +56,4 @@ class CarService
 
         return $this->carTransformer->toArrayList($cars);
     }
-
-    public function addCar(
-        AddCarRequest $addCarRequest,
-    ) {
-        $car = $this->addCarRequestToCar->mapping($addCarRequest);
-        $this->carRepository->add($car, true);
-    }
-
-
 }
