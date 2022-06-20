@@ -23,5 +23,4 @@ class CarValidator
             throw new ValidatorException('ValidatorException',code: Response::HTTP_BAD_REQUEST);
         }
     }
-
 }

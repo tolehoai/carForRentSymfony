@@ -2,12 +2,10 @@
 
 namespace App\Controller\API;
 
-use App\Request\ListCarRequest;
 use App\Traits\ResponseTrait;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AuthController extends AbstractController
@@ -19,7 +17,9 @@ class AuthController extends AbstractController
     {
         $user = $this->getUser();
         $token = $JWTTokenManager->create($user);
-        $data = ['token'=>$token];
+        $data = ['token' => $token];
+        
         return $this->success($data);
     }
 }
+

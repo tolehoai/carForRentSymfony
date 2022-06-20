@@ -19,6 +19,5 @@ trait TransferTrait
 
         return $array;
     }
-
-
 }
+

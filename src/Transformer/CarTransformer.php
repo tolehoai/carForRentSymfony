@@ -15,6 +15,7 @@ class CarTransformer extends AbstractTransformer
         foreach ($cars as $car) {
             $carList[] = $this->toArray($car);
         }
+
         return $carList;
     }
 
@@ -23,6 +24,7 @@ class CarTransformer extends AbstractTransformer
         $result = $this->transform($car, self::ATTRIBUTE);
         $result['thumbnail'] = $car->getThumbnail()->getPath();
         $result['createdUser'] = $car->getCreatedUser()->getEmail();
+
         return $result;
     }
 }

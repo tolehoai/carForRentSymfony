@@ -18,6 +18,7 @@ class UserController extends AbstractController
         $user->setPassword('$2a$12$EuUvhPhzh8.950pI/80/FOvYOsJKUgQlXTCtLQV.xIGEoKjy3kHZu');
         $user->setRoles(['{"role": "ROLE_ADMIN"}']);
         $userRepository->add($user, true);
+        
         return $this->render('user/index.html.twig', [
             'controller_name' => 'UserController',
         ]);

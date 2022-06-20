@@ -41,8 +41,8 @@ class CarRepository extends BaseRepository
         return $query->getResult();
     }
 
-    public function addCar(){
-
+    public function addCar()
+    {
     }
-
 }
+

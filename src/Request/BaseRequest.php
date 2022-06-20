@@ -45,5 +45,5 @@ class BaseRequest
 
         return $arr;
     }
-
 }
+

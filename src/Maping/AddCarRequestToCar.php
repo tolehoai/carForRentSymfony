@@ -37,6 +37,4 @@ class AddCarRequestToCar
 
         return $car;
     }
-
-
 }

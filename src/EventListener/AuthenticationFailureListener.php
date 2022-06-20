@@ -20,3 +20,4 @@ class AuthenticationFailureListener
         $event->setResponse($response);
     }
 }
+

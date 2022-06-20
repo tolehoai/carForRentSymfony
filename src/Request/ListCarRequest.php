@@ -95,7 +95,4 @@ class ListCarRequest extends BaseRequest
     {
         $this->price = $price;
     }
-
-
-
 }

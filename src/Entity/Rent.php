@@ -125,3 +125,4 @@ class Rent
         return $this;
     }
 }
+

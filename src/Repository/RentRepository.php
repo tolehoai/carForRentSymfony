@@ -20,5 +20,5 @@ class RentRepository extends BaseRepository
     {
         parent::__construct($registry, Rent::class);
     }
-
 }
+

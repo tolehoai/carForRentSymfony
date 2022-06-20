@@ -157,6 +157,4 @@ class AddCarRequest extends BaseRequest
     {
         $this->year = $year;
     }
-
-
 }

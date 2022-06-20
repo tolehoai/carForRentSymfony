@@ -40,7 +40,6 @@ class UpdateCarRequestToCar
 
     public function mappingWithNull(Car $car, UpdateCarRequest $updateCarRequest): AbstractEntity
     {
-
         $user = $this->userRepository->find($car->getCreatedUser());
         $car->setCreatedUser($user);
 
@@ -57,16 +56,16 @@ class UpdateCarRequestToCar
         if ($updateCarRequest->getColor()) {
             $car->setColor($updateCarRequest->getColor());
         }
-        if($updateCarRequest->getBrand()){
+        if ($updateCarRequest->getBrand()) {
             $car->setBrand($updateCarRequest->getBrand());
         }
-        if($updateCarRequest->getPrice()){
+        if ($updateCarRequest->getPrice()) {
             $car->setPrice($updateCarRequest->getPrice());
         }
-        if($updateCarRequest->getSeats()){
+        if ($updateCarRequest->getSeats()) {
             $car->setSeats($updateCarRequest->getSeats());
         }
-        if($updateCarRequest->getYear()){
+        if ($updateCarRequest->getYear()) {
             $car->setYear($updateCarRequest->getYear());
         }
         $car->setCreatedAt(new \DateTimeImmutable());
@@ -74,3 +73,4 @@ class UpdateCarRequestToCar
         return $car;
     }
 }
+

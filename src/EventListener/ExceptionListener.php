@@ -21,7 +21,7 @@ class ExceptionListener
     const DEFAULT_ERROR_MESSAGE = 'Something wrong.';
     const DEFAULT_ERROR_TEMPLATE = 'error/index.html.twig';
     const DEV_ENV = 'dev';
-    const API_CONTROLLER_PREFIX = 'App\Controller\Api';
+    const API_CONTROLLER_PREFIX = 'App\Controller\API';
 
     private string $environment;
     private ?Request $request;
@@ -75,6 +75,11 @@ class ExceptionListener
             case NotFoundHttpException::class:
                 $statusCode = Response::HTTP_NOT_FOUND;
                 break;
+            case PhoneExistException::class:
+            case EmailExistException::class:
+                $message = $exception->getMessage();
+                $statusCode = Response::HTTP_BAD_REQUEST;
+                break;
             default:
                 $statusCode = Response::HTTP_BAD_REQUEST;
         }
@@ -97,6 +102,7 @@ class ExceptionListener
     {
         $prefix = static::API_CONTROLLER_PREFIX;
         $controller = $this->request->attributes->get('_controller');
+
 
         return substr($controller, 0, strlen($prefix)) === $prefix;
     }

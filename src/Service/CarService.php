@@ -84,6 +84,5 @@ class CarService
         return $this->success(['message' => 'Update car success', 'data' => $this->carTransformer->toArray($carMapper)]
         );
     }
-
-
 }
+

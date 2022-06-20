@@ -174,7 +174,5 @@ class UpdateCarRequest extends BaseRequest
     {
         $this->id = $id;
     }
-
-
-
 }
+
