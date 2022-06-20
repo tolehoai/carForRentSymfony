@@ -12,12 +12,12 @@ class BaseRequest
     {
         foreach ($query as $key => $value) {
             $setter = 'set' . ucfirst($key);
-
             if (!method_exists($this, $setter) || $value == '') {
                 continue;
             }
             $this->{$setter}($value);
         }
+
         return $this;
     }
 
@@ -34,6 +34,7 @@ class BaseRequest
             }
         }
         $arr['criteria'] = $criteria;
+
         $convert_to_array = explode(',', $params['order']);
         for ($i = 0; $i < count($convert_to_array); $i++) {
             $key_value = explode('.', $convert_to_array [$i]);

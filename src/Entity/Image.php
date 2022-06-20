@@ -19,7 +19,7 @@ class Image
     #[ORM\Column(type: 'date_immutable', nullable: true)]
     private $createdAt;
 
-    #[ORM\OneToOne(mappedBy: 'thumbnail_id', targetEntity: Car::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'thumbnail', targetEntity: Car::class, cascade: ['persist', 'remove'])]
     private $car;
 
     public function getId(): ?int

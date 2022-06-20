@@ -23,7 +23,6 @@ class CarRepository extends BaseRepository
 
     public function filter(array $listCarRequest): array
     {
-        dump($listCarRequest);
 
         $qb = $this->createQueryBuilder('p');
         foreach ($listCarRequest['criteria'] as $key => $value) {
@@ -31,11 +30,15 @@ class CarRepository extends BaseRepository
                 $qb->andWhere('p.' . $key . ' = ' . '\'' . $value . '\'');
             }
         }
+        if (!isset($listCarRequest['filterBy'])) {
+            $query = $qb->getQuery();
+            return $query->getResult();
+        }
         foreach ($listCarRequest['filterBy'] as $key => $value) {
             $qb->addOrderBy('p.' . $key, $value);
         }
 
         $query = $qb->getQuery();
-        return $query->execute();
+        return $query->getResult();
     }
 }
