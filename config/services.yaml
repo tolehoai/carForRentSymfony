@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+  brochures_directory: '%kernel.project_dir%/public/uploads/images'
 
 services:
   # default configuration for services in *this* file
@@ -34,4 +35,16 @@ services:
     tags:
       - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_invalid, method: onJWTInvalid }
 
+  App\Service\ImageService:
+    arguments:
+      $targetDirectory: '%brochures_directory%'
+
+  Aws\S3\S3Client:
+    arguments:
+      -
+        version: '%env(VERSION)%'
+        region: '%env(REGION)%'
+        credentials:
+          key: '%env(AWS_S3_ACCESS_ID)%'
+          secret: '%env(AWS_S3_ACCESS_SECRET)%'
 

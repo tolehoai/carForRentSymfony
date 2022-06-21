@@ -41,7 +41,7 @@ class CarService
     ) {
         $car = $this->addCarRequestToCar->mapping($addCarRequest);
         $this->carRepository->add($car, true);
-        return $this->success(['message' => 'Add car success']);
+        return $this->success(['message' => 'Add car success', 'data' => $car]);
     }
 
     public function deleteCar(

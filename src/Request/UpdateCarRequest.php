@@ -12,6 +12,7 @@ class UpdateCarRequest extends BaseRequest
     private string|null $color = null;
     private string|null $brand = null;
     private string|null $price = null;
+
     private string|null $seats = null;
     private string|null $year = null;
 
