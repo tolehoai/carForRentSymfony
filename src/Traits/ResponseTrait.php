@@ -15,5 +15,15 @@ trait ResponseTrait
             'data' => $data
         ]);
     }
+
+    public function error(array $data): JsonResponse
+    {
+        $jsonResponse = new JsonResponse();
+
+        return $jsonResponse->setData([
+            'status' => 'error',
+            'errors' => $data
+        ]);
+    }
 }
 

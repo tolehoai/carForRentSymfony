@@ -19,5 +19,16 @@ trait TransferTrait
 
         return $array;
     }
+
+    function errorToArray($errors): array
+    {
+        $errorArray = [];
+
+        foreach ($errors as $error) {
+            $errorArray[$error->getPropertyPath()] = $error->getMessage();
+        }
+
+        return $errorArray;
+    }
 }
 

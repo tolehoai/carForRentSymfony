@@ -30,7 +30,10 @@ class CarController extends AbstractController
     {
         $query = $request->query->all();
         $listCarParams = $listCarRequest->fromArray($query, $listCarRequest);
-        $carValidator->validatorCarRequest($listCarParams);
+        $errors = $carValidator->validatorCarRequest($listCarParams);
+        if (!empty($errors)) {
+            return $this->error($errors);
+        }
         $carList = $carService->find($listCarParams);
 
         return $this->success($carList);
