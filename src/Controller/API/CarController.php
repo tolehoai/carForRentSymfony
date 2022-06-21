@@ -19,7 +19,7 @@ class CarController extends AbstractController
     use TransferTrait;
     use ResponseTrait;
 
-    #[Route('/api/car', name: 'app_api_car', methods: 'GET')]
+    #[Route('/api/cars', name: 'app_api_car', methods: 'GET')]
     public function list(
         CarService $carService,
         Request $request,
@@ -34,7 +34,7 @@ class CarController extends AbstractController
         return $this->success($carList);
     }
 
-    #[Route('/api/car', name: 'app_api_delete_car', methods: 'DELETE')]
+    #[Route('/api/cars', name: 'app_api_delete_car', methods: 'DELETE')]
     public function deleteCar(Request $request, AddCarRequest $addCarRequest, CarService $carService): Response
     {
         $id = json_decode($request->getContent(), true)['id'];
@@ -42,7 +42,7 @@ class CarController extends AbstractController
         return $carService->deleteCar($id);
     }
 
-    #[Route('/api/car', name: 'app_api_add_car', methods: 'POST')]
+    #[Route('/api/cars', name: 'app_api_add_car', methods: 'POST')]
     public function addCar(Request $request, AddCarRequest $addCarRequest, CarService $carService): Response
     {
         $body = $addCarRequest->fromArray(json_decode($request->getContent(), true), $addCarRequest);
@@ -50,7 +50,7 @@ class CarController extends AbstractController
         return $carService->addCar($body);
     }
 
-    #[Route('/api/car/{id}', name: 'app_api_update_car', methods: 'PUT')]
+    #[Route('/api/cars/{id}', name: 'app_api_update_car', methods: 'PUT')]
     public function updateCar(
         $id,
         Request $request,
@@ -62,7 +62,7 @@ class CarController extends AbstractController
         return $carService->updateCar($id, $body);
     }
 
-    #[Route('/api/car/{id}', name: 'app_api_update_car_patch', methods: 'PATCH')]
+    #[Route('/api/cars/{id}', name: 'app_api_update_car_patch', methods: 'PATCH')]
     public function updateCarPatch(
         $id,
         Request $request,
