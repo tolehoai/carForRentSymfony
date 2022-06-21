@@ -70,7 +70,7 @@ class CarController extends AbstractController
         CarService $carService
     ): Response {
         $body = $updateCarRequest->fromArray(json_decode($request->getContent(), true), $updateCarRequest);
-        
+
         return $carService->updateCarPatch($id, $body);
     }
 }

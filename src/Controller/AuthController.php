@@ -34,7 +34,7 @@ class AuthController extends AbstractController
         if ($this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_admin');
         }
-        
+
         return $this->redirectToRoute('app_profile');
     }
 

@@ -35,23 +35,18 @@ class ImageManager extends AbstractController
         );
     }
 
-
-    public function upload(File $file)
-    {
-        $fileName = $file->getFilename().".".explode("/",$file->getMimeType())[1];
-        $fileContent= $file->getContent();
-
-        return $this->getClient()->upload($this->getBucket(),$fileName, $fileContent)->toArray()['ObjectURL'];
-    }
-
     /**
-     * Getter of client
+     * Setter of bucket
      *
-     * @return S3Client
+     * @param string $bucket
+     *
+     * @return $this
      */
-    protected function getClient()
+    private function setBucket($bucket)
     {
-        return $this->client;
+        $this->bucket = $bucket;
+
+        return $this;
     }
 
     /**
@@ -68,6 +63,24 @@ class ImageManager extends AbstractController
         return $this;
     }
 
+    public function upload(File $file)
+    {
+        $fileName = $file->getFilename() . "." . explode("/", $file->getMimeType())[1];
+        $fileContent = $file->getContent();
+
+        return $this->getClient()->upload($this->getBucket(), $fileName, $fileContent)->toArray()['ObjectURL'];
+    }
+
+    /**
+     * Getter of client
+     *
+     * @return S3Client
+     */
+    protected function getClient()
+    {
+        return $this->client;
+    }
+
     /**
      * Getter of bucket
      *
@@ -76,19 +89,5 @@ class ImageManager extends AbstractController
     protected function getBucket()
     {
         return $this->bucket;
-    }
-
-    /**
-     * Setter of bucket
-     *
-     * @param string $bucket
-     *
-     * @return $this
-     */
-    private function setBucket($bucket)
-    {
-        $this->bucket = $bucket;
-
-        return $this;
     }
 }

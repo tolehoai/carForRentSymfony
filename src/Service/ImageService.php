@@ -16,8 +16,12 @@ class ImageService
     private ImageManager $imageManager;
     private ImageRepository $imageRepository;
 
-    public function __construct($targetDirectory, SluggerInterface $slugger, ImageManager $imageManager, ImageRepository $imageRepository)
-    {
+    public function __construct(
+        $targetDirectory,
+        SluggerInterface $slugger,
+        ImageManager $imageManager,
+        ImageRepository $imageRepository
+    ) {
         $this->targetDirectory = $targetDirectory;
         $this->slugger = $slugger;
         $this->imageManager = $imageManager;
@@ -26,8 +30,8 @@ class ImageService
 
     public function upload(UploadedFile $file): Image
     {
-        $image = new Image();
         $url = $this->imageManager->upload($file);
+        $image = new Image();
         $image->setPath($url);
         $image->setCreatedAt(new \DateTimeImmutable());
         $this->imageRepository->add($image, true);
