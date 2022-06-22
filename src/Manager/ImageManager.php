@@ -4,11 +4,12 @@ namespace App\Manager;
 
 use Aws\S3\S3Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ImageManager extends AbstractController
 {
-
+    private $slugger;
     /**
      * @var S3Client
      */
@@ -23,8 +24,9 @@ class ImageManager extends AbstractController
      * @param string $bucket
      * @param array $s3arguments
      */
-    public function __construct()
+    public function __construct(SluggerInterface $slugger)
     {
+        $this->slugger = $slugger;
         $this->setBucket($_ENV['BUCKET_NAME']);
         $this->setClient(
             new S3Client([
@@ -63,12 +65,40 @@ class ImageManager extends AbstractController
         return $this;
     }
 
-    public function upload(File $file)
+    public function upload(UploadedFile $file)
     {
-        $fileName = $file->getFilename() . "." . explode("/", $file->getMimeType())[1];
-        $fileContent = $file->getContent();
+        $fileName = $this->getFileName($file);
+        $file->move($this->getTargetDirectory(), $fileName);
+        $filePath = $this->getPath($fileName);
+        $s3UploadURL = $this->s3Upload($fileName, $filePath);
+        unlink($filePath);
+        return $s3UploadURL->get('ObjectURL');
+    }
 
-        return $this->getClient()->upload($this->getBucket(), $fileName, $fileContent)->toArray()['ObjectURL'];
+    public function getFileName(UploadedFile $file)
+    {
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = $this->slugger->slug($originalFilename);
+        return $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+    }
+
+    public function getTargetDirectory()
+    {
+        return $this->getParameter('brochures_directory');
+    }
+
+    public function getPath($fileName)
+    {
+        return $this->getTargetDirectory() . $fileName;
+    }
+
+    public function s3Upload($fileName, $filePath)
+    {
+        return $s3UploadURL = $this->getClient()->putObject([
+            'Bucket' => $this->getBucket(),
+            'Key' => 'carImages/' . $fileName,
+            'SourceFile' => $filePath,
+        ]);
     }
 
     /**
@@ -90,4 +120,5 @@ class ImageManager extends AbstractController
     {
         return $this->bucket;
     }
+
 }

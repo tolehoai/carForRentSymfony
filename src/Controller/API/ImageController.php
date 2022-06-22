@@ -19,6 +19,7 @@ class ImageController extends AbstractController
     public function index(Request $request, ImageService $imageService): JsonResponse
     {
         $file = $request->files->get('image');
+
         $image = $this->objectToArray($imageService->upload($file));
 
         return $this->success($image);

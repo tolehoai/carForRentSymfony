@@ -32,7 +32,7 @@ class ImageService
     {
         $url = $this->imageManager->upload($file);
         $image = new Image();
-        $image->setPath($url);
+        $image->setPath(explode('https://hoaicarforrent.s3.ap-southeast-1.amazonaws.com/', $url)[1]);
         $image->setCreatedAt(new \DateTimeImmutable());
         $this->imageRepository->add($image, true);
         return $image;

@@ -48,6 +48,8 @@ class ExceptionListener
     {
         $exception = $event->getThrowable();
         [$statusCode, $message] = $this->getStatusCodeAndMessage($exception);
+
+
         if ($this->isApiRequest()) {
             $response = new JsonResponse();
             $content = $this->getApiContent($statusCode, $message);
@@ -55,6 +57,7 @@ class ExceptionListener
             $response = new Response();
             $content = $this->getRenderContent($statusCode, $message);
         }
+
         $response->setStatusCode($statusCode);
         $response->setContent($content);
         $event->setResponse($response);
@@ -74,11 +77,6 @@ class ExceptionListener
                 break;
             case NotFoundHttpException::class:
                 $statusCode = Response::HTTP_NOT_FOUND;
-                break;
-            case PhoneExistException::class:
-            case EmailExistException::class:
-                $message = $exception->getMessage();
-                $statusCode = Response::HTTP_BAD_REQUEST;
                 break;
             default:
                 $statusCode = Response::HTTP_BAD_REQUEST;
@@ -102,7 +100,6 @@ class ExceptionListener
     {
         $prefix = static::API_CONTROLLER_PREFIX;
         $controller = $this->request->attributes->get('_controller');
-
 
         return substr($controller, 0, strlen($prefix)) === $prefix;
     }
