@@ -12,7 +12,6 @@ use App\Validator\CarValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CarController extends AbstractController
@@ -22,12 +21,11 @@ class CarController extends AbstractController
 
     #[Route('/api/cars', name: 'app_api_car', methods: 'GET')]
     public function list(
-        CarService     $carService,
-        Request        $request,
+        CarService $carService,
+        Request $request,
         ListCarRequest $listCarRequest,
-        CarValidator   $carValidator,
-    ): JsonResponse
-    {
+        CarValidator $carValidator,
+    ): JsonResponse {
         $query = $request->query->all();
         $listCarParams = $listCarRequest->fromArray($query, $listCarRequest);
         $errors = $carValidator->validatorCarRequest($listCarParams);
@@ -46,27 +44,37 @@ class CarController extends AbstractController
 
         $carService->deleteCar($id);
         return $this->success(['message' => 'Delete car success']);
-
     }
 
     #[Route('/api/cars', name: 'app_api_add_car', methods: 'POST')]
-    public function addCar(Request $request, AddCarRequest $addCarRequest, CarService $carService): JsonResponse
-    {
+    public function addCar(
+        Request $request,
+        CarValidator $carValidator,
+        AddCarRequest $addCarRequest,
+        CarService $carService
+    ): JsonResponse {
         $body = $addCarRequest->fromArray(json_decode($request->getContent(), true), $addCarRequest);
+        $errors = $carValidator->validatorCarRequest($body);
+        if (!empty($errors)) {
+            return $this->error($errors);
+        }
         $car = $carService->addCar($body);
-
-        return $this->success(['message' => 'Add car success', 'data' => $car]);
+        return $this->success(['message' => 'Add car success', 'car' => $this->objectToArray($car)]);
     }
 
     #[Route('/api/cars/{id}', name: 'app_api_update_car', methods: 'PUT')]
     public function updateCar(
         $id,
         Request $request,
+        CarValidator $carValidator,
         UpdateCarRequest $updateCarRequest,
         CarService $carService
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $body = $updateCarRequest->fromArray(json_decode($request->getContent(), true), $updateCarRequest);
+        $errors = $carValidator->validatorCarRequest($body);
+        if (!empty($errors)) {
+            return $this->error($errors);
+        }
         $car = $carService->updateCar($id, $body);
 
         return $this->success(['message' => 'Update car success', 'data' => $car]);
@@ -76,11 +84,15 @@ class CarController extends AbstractController
     public function updateCarPatch(
         $id,
         Request $request,
+        CarValidator $carValidator,
         UpdateCarRequest $updateCarRequest,
         CarService $carService
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $body = $updateCarRequest->fromArray(json_decode($request->getContent(), true), $updateCarRequest);
+        $errors = $carValidator->validatorCarRequest($body);
+        if (!empty($errors)) {
+            return $this->error($errors);
+        }
         $car = $carService->updateCarPatch($id, $body);
 
         return $this->success(['message' => 'Update car success', 'data' => $car]);

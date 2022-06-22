@@ -3,6 +3,7 @@
 namespace App\Validator;
 
 use App\Request\ListCarRequest;
+use App\Traits\ResponseTrait;
 use App\Traits\TransferTrait;
 use http\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CarValidator
 {
     use TransferTrait;
-
+    use ResponseTrait;
     private ValidatorInterface $validator;
 
     public function __construct(ValidatorInterface $validator)

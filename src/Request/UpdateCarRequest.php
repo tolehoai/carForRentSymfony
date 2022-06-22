@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Request;
-
+use Symfony\Component\Validator\Constraints as Assert;
 class UpdateCarRequest extends BaseRequest
 {
     private string|null $id = null;
@@ -11,10 +11,28 @@ class UpdateCarRequest extends BaseRequest
     private string|null $description = null;
     private string|null $color = null;
     private string|null $brand = null;
-    private string|null $price = null;
+    #[Assert\Type('float')]
+    private $price = null;
+    #[Assert\Type('integer')]
+    private $seats = null;
+    #[Assert\Type('integer')]
+    private $year = null;
 
-    private string|null $seats = null;
-    private string|null $year = null;
+    /**
+     * @return string|null
+     */
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string|null $id
+     */
+    public function setId(?string $id): void
+    {
+        $this->id = $id;
+    }
 
     /**
      * @return string|null
@@ -113,67 +131,52 @@ class UpdateCarRequest extends BaseRequest
     }
 
     /**
-     * @return string|null
+     * @return null
      */
-    public function getPrice(): ?string
+    public function getPrice()
     {
         return $this->price;
     }
 
     /**
-     * @param string|null $price
+     * @param null $price
      */
-    public function setPrice(?string $price): void
+    public function setPrice($price): void
     {
         $this->price = $price;
     }
 
     /**
-     * @return string|null
+     * @return null
      */
-    public function getSeats(): ?string
+    public function getSeats()
     {
         return $this->seats;
     }
 
     /**
-     * @param string|null $seats
+     * @param null $seats
      */
-    public function setSeats(?string $seats): void
+    public function setSeats($seats): void
     {
         $this->seats = $seats;
     }
 
     /**
-     * @return string|null
+     * @return null
      */
-    public function getYear(): ?string
+    public function getYear()
     {
         return $this->year;
     }
 
     /**
-     * @param string|null $year
+     * @param null $year
      */
-    public function setYear(?string $year): void
+    public function setYear($year): void
     {
         $this->year = $year;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string|null $id
-     */
-    public function setId(?string $id): void
-    {
-        $this->id = $id;
-    }
 }
 

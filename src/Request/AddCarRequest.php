@@ -2,6 +2,8 @@
 
 namespace App\Request;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class AddCarRequest extends BaseRequest
 {
     private string|null $created_user = null;
@@ -10,9 +12,12 @@ class AddCarRequest extends BaseRequest
     private string|null $description = null;
     private string|null $color = null;
     private string|null $brand = null;
-    private string|null $price = null;
-    private string|null $seats = null;
-    private string|null $year = null;
+    #[Assert\Type('float')]
+    private $price = null;
+    #[Assert\Type('integer')]
+    private $seats = null;
+    #[Assert\Type('integer')]
+    private $year = null;
 
     /**
      * @return string|null
@@ -111,49 +116,49 @@ class AddCarRequest extends BaseRequest
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getPrice(): ?string
+    public function getPrice(): mixed
     {
         return $this->price;
     }
 
     /**
-     * @param string|null $price
+     * @param mixed $price
      */
-    public function setPrice(?string $price): void
+    public function setPrice(?float $price): void
     {
         $this->price = $price;
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getSeats(): ?string
+    public function getSeats(): mixed
     {
         return $this->seats;
     }
 
     /**
-     * @param string|null $seats
+     * @param mixed $seats
      */
-    public function setSeats(?string $seats): void
+    public function setSeats(mixed $seats): void
     {
         $this->seats = $seats;
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getYear(): ?string
+    public function getYear(): mixed
     {
         return $this->year;
     }
 
     /**
-     * @param string|null $year
+     * @param mixed $year
      */
-    public function setYear(?string $year): void
+    public function setYear($year): void
     {
         $this->year = $year;
     }

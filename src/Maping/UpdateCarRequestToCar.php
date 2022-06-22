@@ -21,6 +21,7 @@ class UpdateCarRequestToCar
 
     public function mapping(Car $car, UpdateCarRequest $updateCarRequest): AbstractEntity
     {
+
         $user = $this->userRepository->find($updateCarRequest->getCreatedUser());
         $car->setCreatedUser($user);
         $image = $this->imageRepository->find($updateCarRequest->getThumbnail());

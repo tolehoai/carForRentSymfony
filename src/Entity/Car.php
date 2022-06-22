@@ -115,36 +115,36 @@ class Car extends AbstractEntity
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice()
     {
         return $this->price;
     }
 
-    public function setPrice(float $price): self
+    public function setPrice($price): self
     {
         $this->price = $price;
 
         return $this;
     }
 
-    public function getSeats(): ?int
+    public function getSeats()
     {
         return $this->seats;
     }
 
-    public function setSeats(?int $seats): self
+    public function setSeats($seats): self
     {
         $this->seats = $seats;
 
         return $this;
     }
 
-    public function getYear(): ?int
+    public function getYear()
     {
         return $this->year;
     }
 
-    public function setYear(?int $year): self
+    public function setYear($year): self
     {
         $this->year = $year;
 
