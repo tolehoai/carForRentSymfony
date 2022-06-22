@@ -9,6 +9,10 @@ class ListCarRequest extends BaseRequest
     private string|null $order = null;
     private string|null $color = null;
     private string|null $brand = null;
+    #[Assert\Type(
+        type: 'float',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
     private string|null $price = null;
     #[Assert\Type(
         type: 'integer',

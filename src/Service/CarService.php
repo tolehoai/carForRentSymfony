@@ -41,7 +41,7 @@ class CarService
     ) {
         $car = $this->addCarRequestToCar->mapping($addCarRequest);
         $this->carRepository->add($car, true);
-        return $this->success(['message' => 'Add car success', 'data' => $car]);
+        return $car;
     }
 
     public function deleteCar(
@@ -49,7 +49,6 @@ class CarService
     ) {
         $car = $this->carRepository->find($id);
         $this->carRepository->remove($car, true);
-        return $this->success(['message' => 'Delete car success']);
     }
 
     public function find(
@@ -70,8 +69,7 @@ class CarService
         $car = $this->carRepository->find($id);
         $carMapper = $this->updateCarRequestToCar->mapping($car, $updateCarRequest);
         $this->carRepository->add($carMapper, true);
-        return $this->success(['message' => 'Update car success', 'data' => $this->carTransformer->toArray($carMapper)]
-        );
+        return $this->carTransformer->toArray($carMapper);
     }
 
     public function updateCarPatch(
@@ -81,8 +79,7 @@ class CarService
         $car = $this->carRepository->find($id);
         $carMapper = $this->updateCarRequestToCar->mappingWithNull($car, $updateCarRequest);
         $this->carRepository->add($carMapper, true);
-        return $this->success(['message' => 'Update car success', 'data' => $this->carTransformer->toArray($carMapper)]
-        );
+        return $this->carTransformer->toArray($carMapper);
     }
 }
 
