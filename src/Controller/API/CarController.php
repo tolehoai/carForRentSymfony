@@ -2,12 +2,14 @@
 
 namespace App\Controller\API;
 
+use App\Entity\Car;
 use App\Request\AddCarRequest;
 use App\Request\ListCarRequest;
 use App\Request\UpdateCarRequest;
 use App\Service\CarService;
 use App\Traits\ResponseTrait;
 use App\Traits\TransferTrait;
+use App\Transformer\CarTransformer;
 use App\Validator\CarValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,6 +37,14 @@ class CarController extends AbstractController
         $carList = $carService->find($listCarParams);
 
         return $this->success($carList);
+    }
+
+    #[Route('/api/cars/{id}', name: 'app_api_car_detail', methods: 'GET')]
+    public function carDetail(
+        Car $car,
+        CarTransformer $carTransformer,
+    ): JsonResponse {
+        return $this->success($carTransformer->toArray($car));
     }
 
     #[Route('/api/cars', name: 'app_api_delete_car', methods: 'DELETE')]
