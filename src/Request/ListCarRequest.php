@@ -6,14 +6,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ListCarRequest extends BaseRequest
 {
+    private const SEAT_CHOICE = [4, 7, 16];
     private string|null $order = null;
     private string|null $color = null;
     private string|null $brand = null;
+
     #[Assert\Type(
         type: 'float',
         message: 'The value {{ value }} is not a valid {{ type }}.',
     )]
     private string|null $price = null;
+
+    #[Assert\Choice(
+        choices: self::SEAT_CHOICE,
+    )]
     #[Assert\Type(
         type: 'integer',
         message: 'The value {{ value }} is not a valid {{ type }}.',

@@ -14,6 +14,7 @@ use App\Validator\CarValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CarController extends AbstractController
@@ -32,11 +33,11 @@ class CarController extends AbstractController
         $listCarParams = $listCarRequest->fromArray($query, $listCarRequest);
         $errors = $carValidator->validatorCarRequest($listCarParams);
         if (!empty($errors)) {
-            return $this->error($errors);
+            return $this->error($errors, Response::HTTP_BAD_REQUEST);
         }
         $carList = $carService->find($listCarParams);
 
-        return $this->success($carList);
+        return $this->success($carList, Response::HTTP_OK);
     }
 
     #[Route('/api/cars/{id}', name: 'app_api_car_detail', methods: 'GET')]
@@ -44,17 +45,9 @@ class CarController extends AbstractController
         Car $car,
         CarTransformer $carTransformer,
     ): JsonResponse {
-        return $this->success($carTransformer->toArray($car));
+        return $this->success($carTransformer->toArray($car), Response::HTTP_OK);
     }
 
-    #[Route('/api/cars', name: 'app_api_delete_car', methods: 'DELETE')]
-    public function deleteCar(Request $request, AddCarRequest $addCarRequest, CarService $carService): JsonResponse
-    {
-        $id = json_decode($request->getContent(), true)['id'];
-
-        $carService->deleteCar($id);
-        return $this->success(['message' => 'Delete car success']);
-    }
 
     #[Route('/api/cars', name: 'app_api_add_car', methods: 'POST')]
     public function addCar(
@@ -66,10 +59,10 @@ class CarController extends AbstractController
         $body = $addCarRequest->fromArray(json_decode($request->getContent(), true), $addCarRequest);
         $errors = $carValidator->validatorCarRequest($body);
         if (!empty($errors)) {
-            return $this->error($errors);
+            return $this->error($errors, Response::HTTP_BAD_REQUEST);
         }
         $car = $carService->addCar($body);
-        return $this->success(['message' => 'Add car success', 'car' => $this->objectToArray($car)]);
+        return $this->success(['message' => 'Add car success', 'car' => $this->objectToArray($car)], Response::HTTP_OK);
     }
 
     #[Route('/api/cars/{id}', name: 'app_api_update_car', methods: 'PUT')]
@@ -83,11 +76,12 @@ class CarController extends AbstractController
         $body = $updateCarRequest->fromArray(json_decode($request->getContent(), true), $updateCarRequest);
         $errors = $carValidator->validatorCarRequest($body);
         if (!empty($errors)) {
-            return $this->error($errors);
+            return $this->error($errors, Response::HTTP_BAD_REQUEST);
         }
+
         $car = $carService->updateCar($id, $body);
 
-        return $this->success(['message' => 'Update car success', 'data' => $car]);
+        return $this->success(['message' => 'Update car success', 'data' => $car], Response::HTTP_OK);
     }
 
     #[Route('/api/cars/{id}', name: 'app_api_update_car_patch', methods: 'PATCH')]
@@ -101,11 +95,20 @@ class CarController extends AbstractController
         $body = $updateCarRequest->fromArray(json_decode($request->getContent(), true), $updateCarRequest);
         $errors = $carValidator->validatorCarRequest($body);
         if (!empty($errors)) {
-            return $this->error($errors);
+            return $this->error($errors, Response::HTTP_BAD_REQUEST);
         }
         $car = $carService->updateCarPatch($id, $body);
 
-        return $this->success(['message' => 'Update car success', 'data' => $car]);
+        return $this->success(['message' => 'Update car success', 'data' => $car], Response::HTTP_OK);
+    }
+
+    #[Route('/api/cars', name: 'app_api_delete_car', methods: 'DELETE')]
+    public function deleteCar(Request $request, CarService $carService): JsonResponse
+    {
+        $id = json_decode($request->getContent(), true)['id'];
+
+        $carService->deleteCar($id);
+        return $this->success([], Response::HTTP_NO_CONTENT);
     }
 }
 

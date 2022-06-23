@@ -41,8 +41,15 @@ services:
 
   Aws\S3\S3Client:
     arguments:
-      -
-        version: '%env(VERSION)%'
+      - version: '%env(VERSION)%'
+        region: '%env(REGION)%'
+        credentials:
+          key: '%env(AWS_S3_ACCESS_ID)%'
+          secret: '%env(AWS_S3_ACCESS_SECRET)%'
+
+  Aws\Sqs\SqsClient:
+    arguments:
+      - version: '%env(VERSION)%'
         region: '%env(REGION)%'
         credentials:
           key: '%env(AWS_S3_ACCESS_ID)%'

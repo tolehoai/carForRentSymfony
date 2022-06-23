@@ -8,7 +8,7 @@ class BaseRequest
 {
     use ObjectTrait;
 
-    public function fromArray(array $query, mixed $instaceOfObject)
+    public function fromArray(array $query)
     {
         foreach ($query as $key => $value) {
             $setter = 'set' . ucfirst($key);

@@ -4,6 +4,7 @@ namespace App\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 class UpdateCarRequest extends BaseRequest
 {
+    private const SEAT_CHOICE = [4, 7, 16];
     private string|null $id = null;
     private string|null $created_user = null;
     private string|null $thumbnail = null;
@@ -13,7 +14,13 @@ class UpdateCarRequest extends BaseRequest
     private string|null $brand = null;
     #[Assert\Type('float')]
     private $price = null;
-    #[Assert\Type('integer')]
+    #[Assert\Choice(
+        choices: self::SEAT_CHOICE,
+    )]
+    #[Assert\Type(
+        type: 'integer',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
     private $seats = null;
     #[Assert\Type('integer')]
     private $year = null;

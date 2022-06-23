@@ -68,7 +68,9 @@ class CarService
     ) {
         $car = $this->carRepository->find($id);
         $carMapper = $this->updateCarRequestToCar->mapping($car, $updateCarRequest);
+
         $this->carRepository->add($carMapper, true);
+
         return $this->carTransformer->toArray($carMapper);
     }
 

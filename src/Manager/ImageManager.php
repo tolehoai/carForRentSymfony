@@ -10,31 +10,21 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ImageManager extends AbstractController
 {
     private $slugger;
-    /**
-     * @var S3Client
-     */
-    private $client;
 
-    /**
-     * @var string
-     */
-    private $bucket;
+    private S3Client $client;
+
+
+    private string $bucket;
 
     /**
      * @param string $bucket
      * @param array $s3arguments
      */
-    public function __construct(SluggerInterface $slugger)
+    public function __construct(SluggerInterface $slugger, S3Client $s3Client)
     {
         $this->slugger = $slugger;
         $this->setBucket($_ENV['BUCKET_NAME']);
-        $this->setClient(
-            new S3Client([
-                'version' => $_ENV['VERSION'],
-                'region' => $_ENV['REGION'],
-                'credentials' => ['key' => $_ENV['AWS_S3_ACCESS_ID'], 'secret' => $_ENV['AWS_S3_ACCESS_SECRET']]
-            ])
-        );
+        $this->client = $s3Client;
     }
 
     /**

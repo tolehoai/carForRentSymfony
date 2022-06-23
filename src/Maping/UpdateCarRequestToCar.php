@@ -21,8 +21,8 @@ class UpdateCarRequestToCar
 
     public function mapping(Car $car, UpdateCarRequest $updateCarRequest): AbstractEntity
     {
-
         $user = $this->userRepository->find($updateCarRequest->getCreatedUser());
+        $car->setId($car->getId());
         $car->setCreatedUser($user);
         $image = $this->imageRepository->find($updateCarRequest->getThumbnail());
         $car->setThumbnail($image);
@@ -39,8 +39,11 @@ class UpdateCarRequestToCar
         return $car;
     }
 
-    public function mappingWithNull(Car $car, UpdateCarRequest $updateCarRequest): AbstractEntity
-    {
+    public
+    function mappingWithNull(
+        Car $car,
+        UpdateCarRequest $updateCarRequest
+    ): AbstractEntity {
         $user = $this->userRepository->find($car->getCreatedUser());
         $car->setCreatedUser($user);
 
