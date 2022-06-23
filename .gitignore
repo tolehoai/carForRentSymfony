@@ -9,6 +9,9 @@
 /vendor/
 .env
 .idea
+/coverage
+/.phpunit.cache
+/.phpunit.result.cache
 ###< symfony/framework-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###
