@@ -2,6 +2,7 @@
 
 namespace App\Controller\API;
 
+use App\Traits\ResponseTrait;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -10,15 +11,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AuthController extends AbstractController
 {
-    #[Route('/api/login', name: 'app_api_login')]
+    use ResponseTrait;
+
+    #[Route('/api/login', name: 'app_api_login', methods: 'POST')]
     public function login(JWTTokenManagerInterface $JWTTokenManager): JsonResponse
     {
         $user = $this->getUser();
-        return $this->json([
-            'status'=>'success',
-            'data'=>[
-                'token'=> $JWTTokenManager->create($user),
-            ]
-        ]);
+        $token = $JWTTokenManager->create($user);
+        $data = ['token' => $token];
+
+        return $this->success($data, Response::HTTP_OK);
     }
 }
+

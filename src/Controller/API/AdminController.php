@@ -16,3 +16,4 @@ class AdminController extends AbstractController
         ], 200);
     }
 }
+
