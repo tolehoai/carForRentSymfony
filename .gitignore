@@ -9,6 +9,9 @@
 /vendor/
 .env
 .idea
+.phpunit.cache
+tolehoai
+.phpunit.xml.dist
 ###< symfony/framework-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###
