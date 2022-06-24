@@ -12,6 +12,9 @@
 /coverage
 /.phpunit.cache
 /.phpunit.result.cache
+.phpunit.cache
+tolehoai
+.phpunit.xml.dist
 ###< symfony/framework-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###
