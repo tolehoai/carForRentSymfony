@@ -37,5 +37,5 @@ class UserRepository extends BaseRepository implements PasswordUpgraderInterface
 
         $this->add($user, true);
     }
-
 }
+

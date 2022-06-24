@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -23,6 +25,24 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
 
     #[ORM\Column(type: 'string')]
     private $password;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $name;
+
+    #[ORM\OneToMany(mappedBy: 'createdUser_id', targetEntity: Car::class)]
+    private $cars;
+
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Rent::class)]
+    private $rents;
+
+    #[ORM\Column(type: 'date_immutable', nullable: true)]
+    private $createdAt;
+
+    public function __construct()
+    {
+        $this->cars = new ArrayCollection();
+        $this->rents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -48,7 +68,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -93,4 +113,89 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Car>
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars[] = $car;
+            $car->setCreatedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->removeElement($car)) {
+            // set the owning side to null (unless already changed)
+            if ($car->getCreatedUser() === $this) {
+                $car->setCreatedUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rent>
+     */
+    public function getRents(): Collection
+    {
+        return $this->rents;
+    }
+
+    public function addRent(Rent $rent): self
+    {
+        if (!$this->rents->contains($rent)) {
+            $this->rents[] = $rent;
+            $rent->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRent(Rent $rent): self
+    {
+        if ($this->rents->removeElement($rent)) {
+            // set the owning side to null (unless already changed)
+            if ($rent->getUser() === $this) {
+                $rent->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
 }
+
